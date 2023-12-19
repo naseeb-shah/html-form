@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Form</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #977979;
+            border-radius: 5px;
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        #imagePreview,
+        #videoPreview {
+            
+        
+            width: 400px;
+            
+            height: 400px;
+            margin: auto;
+            overflow: hidden;
+        }
+        #title{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+<div id="title">
+    <h1>HTML</h1>
+    <p>Take all types input like that img , text and video and show image preview and video preview.</p>
+</div>
+    <form onsubmit="validate(event)">
+        <label>Name:</label>
+        <input name="name" id="name" type="text"/>
+        <label>Email:</label>
+        <input name="email" id="email" type="email" />
+        <label>Password:</label>
+        <input id="password" name="password" type="password" />
+        <label>Image (Jpg Only)</label>
+        <input type="file" id="image" accept="image/jpeg">
+        <label>Video</label>
+        <input type="file" id="video" accept="video/*">
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="imagePreview"></div>
+    <div id="videoPreview"></div>
+
+    <script>
+        function validate(event) {
+            event.preventDefault();
+
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+
+            let videoElement = document.getElementById('video');
+            let imageElement = document.getElementById('image');
+            let video = videoElement.files[0];
+            let image = imageElement.files[0];
+
+            let imagePreview = document.getElementById('imagePreview');
+            let videoPreview = document.getElementById('videoPreview');
+
+            // Reset previews
+            imagePreview.innerHTML = '';
+            videoPreview.innerHTML = '';
+
+            // Check if an image is selected and display the preview
+            if (image) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    let img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Image Preview';
+                    if (imagePreview instanceof HTMLElement) {
+                        imagePreview.appendChild(img);
+                    }
+                };
+                reader.readAsDataURL(image);
+            }
+
+            // Check if a video is selected and display the preview
+            if (video) {
+                let videoUrl = URL.createObjectURL(video);
+                let videoElement = document.createElement('video');
+                videoElement.src = videoUrl;
+                videoElement.controls = true;
+                if (videoPreview instanceof HTMLElement) {
+                    videoPreview.appendChild(videoElement);
+                }
+            }
+        }
+    </script>
+
+    <script src="" async defer></script>
+</body>
+</html>
